@@ -118,7 +118,7 @@ export const actions = {
     DELETE FROM names
     WHERE id = ${id};`
 	
-		return { success: true };
+		return { deleted: true };
 	},
 
 	create: async ({request}) => {

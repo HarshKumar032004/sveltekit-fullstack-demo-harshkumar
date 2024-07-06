@@ -6,13 +6,9 @@
 
   /** @type {import('./$types').ActionData} */
   export let form;
-
 </script>
 
-<Table
-  names={data.names}
-/>
-
+<Table names={data.names} />
 
 <div
   class="mt-10 pt-10 w-full max-w-xl p-5 mx-auto rounded-lg shadow-xl dark:bg-white/10 bg-white/30 ring-1 ring-gray-900/5 backdrop-blur-lg"
@@ -66,5 +62,7 @@
     <!-- this message is ephemeral; it exists because the page was rendered in
 		   response to a form submission. it will vanish if the user reloads -->
     <p class="pt-2 text-green-600 font-semibold">Added new Applicant!</p>
+    {:else if form?.deleted}
+    <p class="pt-2 text-green-600 font-semibold">Deleted Successfully!</p>
   {/if}
 </div>
