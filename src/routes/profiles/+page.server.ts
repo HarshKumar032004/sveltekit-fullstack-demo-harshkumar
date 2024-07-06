@@ -6,7 +6,7 @@ export async function load() {
   const db = createPool({ connectionString: POSTGRES_URL })
 
   try {
-    const { rows: names } = await db.query('SELECT * FROM names')
+    const { rows: names } = await db.query('SELECT * FROM names order by id')
     return {
       names: names,
     }
@@ -16,7 +16,7 @@ export async function load() {
       )
       // Table is not created yet
       await seed()
-      const { rows: names } = await db.query('SELECT * FROM names')
+      const { rows: names } = await db.query('SELECT * FROM names order by id')
       return {
         users: names
       }
@@ -61,24 +61,51 @@ async function seed() {
   }
 }
 
+async function updateUser(user) {
+    console.log('user', user);
+    const db = createPool({ connectionString: POSTGRES_URL })
+    const client = await db.connect();
+
+    const result = await client.sql`UPDATE names SET name = ${user.name}, email = ${user.email} WHERE id = ${user.id}`
+
+    return {
+      result
+    }
+}
+
 /** @type {import('./$types').Actions} */
 export const actions = {
 	
-  // update: async ({ request }) => {
-  //   const data = await request.formData();
-  //   const db = createPool({ connectionString: POSTGRES_URL })
-  //   const client = await db.connect();
+  update: async ({ request }) => {
+    const req = await request.formData();
 
-  //   const email = data.get('email');
-	// 	const name = data.get('name');
+    const id = req.get('id');
+    const name = req.get('name');
+    const email = req.get('email');
 
-  //   const updateUser = await client.sql`
-  //   UPDATE names
-  //   SET email = ${email}, name = ${name}
-  //   WHERE     ;`
-	
-	// 	return { success: true };
-	// },
+    const data = {
+      id, name, email
+    }
+
+    let updateRes = {
+      error : false, email : email, name, messsage : ''
+    }
+
+    try {
+      const res = await updateUser(data);
+      console.log('api request ran');
+      console.log(res);
+
+
+    } catch (error) {
+        console.log('api request errored');
+        console.log(error)
+        updateRes.error = true;
+        updateRes.messsage = error.messsage;
+    }finally{
+      return updateRes
+    }
+	},
 
   delete: async ({ request }) => {
     const data = await request.formData();
