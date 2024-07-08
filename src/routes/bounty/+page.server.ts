@@ -1,6 +1,7 @@
 import { Root } from "../../contracts/root";
 import { DefaultProvider, sha256, bsv, toByteString } from "scrypt-ts";
 import { NeucronSigner } from "neucron-signer";
+import artifact from '../../../artifacts/root.json';
 
 const provider = new DefaultProvider({ network: bsv.Networks.mainnet });
 const signer = new NeucronSigner(provider);
@@ -12,7 +13,7 @@ export const actions = {
     const data = await request.formData();
     
     const square = BigInt(Number(data.get("square")));
-    await Root.loadArtifact();
+    await Root.loadArtifact(artifact);
     instance = new Root(square);
     await instance.connect(signer);
     
@@ -29,7 +30,7 @@ export const actions = {
     const data = await request.formData();
     const root = Number(data.get("root"));
     
-    await Root.loadArtifact();
+    await Root.loadArtifact(artifact);
     await instance.connect(signer);
     // Call the unlock method
     try {
