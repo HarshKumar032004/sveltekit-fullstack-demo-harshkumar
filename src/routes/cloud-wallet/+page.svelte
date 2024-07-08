@@ -135,8 +135,8 @@
     </form>
     {#if form?.success}
       <p class="font-semibold text-green-600 mt-10">
-        The payment was successfull, Here is your transaction <a class=""
-          >sasdas</a
+        The payment was successfull, <a class="text-indigo-500 font-semibold underline" href={`https://whatsonchain.com/tx/${form?.payResponse}`}
+          >Transaction link</a
         >
       </p>
     {:else if form?.success === false} 

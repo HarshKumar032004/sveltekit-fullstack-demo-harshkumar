@@ -34,14 +34,17 @@ export const actions = {
       email: data.get("email"),
       password: data.get("password"),
     });
-    console.log(loginResponse);
+    // console.log(loginResponse);
+
+    const paymail = data.get('paymail');
+    const amount = Number(data.get('amount'));
 
     const options = {
       outputs: [
         {
-          address: data.get("paymail"),
+          address: paymail,
           note: "gurudakshina",
-          amount: data.get("amount"),
+          amount: amount,
         },
       ],
     };
@@ -49,7 +52,7 @@ export const actions = {
     try {
       payResponse = await neucron.pay.txSpend(options);
       console.log(payResponse);
-      return { success: true, payResponse: payResponse };
+      return { success: true, payResponse: payResponse.data.txid };
     } catch (error) {
       console.log(error.message);
       return {success : false, payResponse : error.message}
