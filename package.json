@@ -4,8 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "vite dev",
-    "predeploy": "npx scrypt-cli@latest compile",
-    "build": "vite build && npx scrypt-cli@latest compile",
+    "build": "npx scrypt-cli@latest compile && vite build",
     "preview": "vite preview",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
